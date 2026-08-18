@@ -1,0 +1,25 @@
+node_modules/
+dist/
+build/
+.turbo/
+.vercel/
+
+# Never commit the password or any local daemon state.
+.env
+.env.local
+*.local
+
+# Daemon runtime state, if someone points REY_STATE_DIR into the repo.
+.agent-rey/
+
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# Local harness runtime state.
+.claude/scheduled_tasks.lock
+
+# Playwright run artifacts.
+test-results/
+playwright-report/

@@ -1,0 +1,29 @@
+{
+  "name": "@agent-rey/daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "reyd": "./dist/bin/reyd.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/bin/reyd.ts",
+    "start": "node dist/bin/reyd.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --experimental-strip-types \"test/*.test.mjs\" && node test/smoke.mjs",
+    "test:agent": "node test/smoke.mjs --agent"
+  },
+  "dependencies": {
+    "@agent-rey/shared": "workspace:*",
+    "@anthropic-ai/claude-agent-sdk": "0.3.223",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

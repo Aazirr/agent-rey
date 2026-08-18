@@ -1,0 +1,123 @@
+{
+  "name": "agent-rey-vscode",
+  "displayName": "Agent Rey",
+  "description": "See and control the Agent Rey daemon's sessions from VSCode.",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Other"],
+  "main": "./dist/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "agentRey.signIn",
+        "title": "Agent Rey: Sign in to daemon"
+      },
+      {
+        "command": "agentRey.signOut",
+        "title": "Agent Rey: Sign out"
+      },
+      {
+        "command": "agentRey.openInBrowser",
+        "title": "Agent Rey: Open app in browser"
+      },
+      {
+        "command": "agentRey.showPairingCode",
+        "title": "Agent Rey: Show pairing QR code"
+      },
+      {
+        "command": "agentRey.newSession",
+        "title": "Agent Rey: New session",
+        "icon": "$(add)"
+      },
+      {
+        "command": "agentRey.refresh",
+        "title": "Agent Rey: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "agentRey.stopSession",
+        "title": "Agent Rey: Stop session",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "agentRey.interruptSession",
+        "title": "Agent Rey: Interrupt session",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "agentRey.openSessionProject",
+        "title": "Agent Rey: Reveal session's project folder"
+      },
+      {
+        "command": "agentRey.showAuditLog",
+        "title": "Agent Rey: Open today's audit log"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "agentRey.sessions",
+          "name": "Agent Rey",
+          "icon": "$(radio-tower)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        { "command": "agentRey.newSession", "when": "view == agentRey.sessions", "group": "navigation@1" },
+        { "command": "agentRey.refresh", "when": "view == agentRey.sessions", "group": "navigation@2" }
+      ],
+      "view/item/context": [
+        {
+          "command": "agentRey.interruptSession",
+          "when": "view == agentRey.sessions && viewItem == reySession.running",
+          "group": "inline@1"
+        },
+        {
+          "command": "agentRey.stopSession",
+          "when": "view == agentRey.sessions && viewItem =~ /^reySession/",
+          "group": "inline@2"
+        },
+        {
+          "command": "agentRey.openSessionProject",
+          "when": "view == agentRey.sessions && viewItem =~ /^reySession/"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Agent Rey",
+      "properties": {
+        "agentRey.daemonUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8787",
+          "description": "Base URL of the reyd daemon. Loopback by default; the extension runs on the same machine."
+        },
+        "agentRey.stateDir": {
+          "type": "string",
+          "default": "",
+          "description": "Daemon state directory, used to locate audit logs. Defaults to ~/.agent-rey."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsc -p tsconfig.json && node --test \"test/*.test.mjs\""
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@agent-rey/shared": "workspace:*",
+    "@types/node": "^24.3.0",
+    "@types/vscode": "^1.90.0",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.2"
+  }
+}

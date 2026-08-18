@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Agent Rey">
+  <rect width="512" height="512" rx="112" fill="#0f1115" />
+  <!-- Terminal prompt caret: a machine you are talking to. -->
+  <path
+    d="M150 186l62 70-62 70"
+    fill="none"
+    stroke="#6aa2ff"
+    stroke-width="34"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <rect x="252" y="308" width="122" height="30" rx="15" fill="#5ddc9a" />
+</svg>

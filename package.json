@@ -1,0 +1,25 @@
+{
+  "name": "agent-rey",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Drive local Claude Code sessions from a phone. Conversation and code stay on the machine.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test && pnpm run test:scripts",
+    "test:scripts": "node --test \"scripts/test/*.test.mjs\"",
+    "test:e2e": "pnpm --filter @agent-rey/web test:e2e",
+    "dev:daemon": "pnpm --filter @agent-rey/daemon dev",
+    "dev:web": "pnpm --filter @agent-rey/web dev",
+    "pair": "node scripts/pair.mjs"
+  },
+  "devDependencies": {
+    "jsqr": "^1.4.0",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "pnpm@11.3.0"
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // VSCode loads extensions as CommonJS. @agent-rey/shared is ESM-only, so it
+    // is imported with `import type` everywhere — those erase at compile time.
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "verbatimModuleSyntax": false,
+    // Required to default-import `ws` from CommonJS output.
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["ES2023"],
+    "types": ["node", "vscode"]
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -15,6 +15,18 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/codex-bridge:
+    dependencies:
+      '@anthropic-ai/claude-agent-sdk':
+        specifier: 0.3.223
+        version: 0.3.223(@anthropic-ai/sdk@0.115.0(zod@4.4.3))(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(zod@4.4.3)
+      '@modelcontextprotocol/sdk':
+        specifier: 1.30.0
+        version: 1.30.0(zod@4.4.3)
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+
   packages/daemon:
     dependencies:
       '@agent-rey/shared':

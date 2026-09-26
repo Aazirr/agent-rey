@@ -1,5 +1,27 @@
 # Agent Rey — Decision Log
 
+## D-017 — Isolated Codex frontend worker with explicit account-failure handoff
+
+**Date:** 2026-09-26 · **Status:** accepted
+
+Add `packages/codex-bridge` as a same-user stdio MCP entrypoint. It reuses the pinned
+Claude Agent SDK approach rather than controlling the VS Code panel, changing the
+running reyd service, or creating a local authentication exemption. It owns separate
+sessions and detached Git worktrees; normal Claude account restrictions still apply.
+
+Unlike the general phone agent, this worker has only scoped file tools, no shell or
+inherited executable project/user settings. A task is explicitly bounded by turns
+and time; interruption preserves work for review instead of presenting it as success.
+Codex owns testing, integration and Git operations. Existing D-004/D-015 daemon
+policies remain unchanged.
+
+Account failures persist a global circuit across Codex windows/projects. No retry,
+account switching, API billing fallback, or silent Codex takeover. The calling Codex
+agent must ask whether the user wants to restore Claude access and continue, or
+hand the same partial work to Codex. A successful explicit account probe clears the
+circuit but does not resume any task. Handed-off tasks cannot resume in Claude.
+See `codex-frontend-worker.md` for the operational contract and limitations.
+
 ## D-001 — Own the sessions; do not remote-control the official panel
 
 **Date:** 2026-08-07 · **Status:** accepted

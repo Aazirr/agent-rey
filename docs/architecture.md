@@ -37,6 +37,12 @@ cloud-session layer, not the model call. Local inference is out of scope.
 
 ## Components
 
+The optional Codex frontend worker is a separate local stdio MCP entrypoint using
+the same Claude SDK, not a client with privileged access to reyd. Its isolated
+worktrees, stricter file-only tools, account circuit and user-controlled fallback
+are specified in [codex-frontend-worker.md](codex-frontend-worker.md). The original
+phone/VS Code daemon behavior below is unchanged.
+
 ```
 ┌─ phone ──────────────┐
 │  PWA (React)         │

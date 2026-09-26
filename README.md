@@ -25,6 +25,16 @@ See [docs/decisions.md](docs/decisions.md) D-001.
 | `packages/shared` | Wire protocol types shared by daemon and clients. |
 | `packages/web` | Mobile PWA — React + Vite, deployable to Vercel or served by the daemon. |
 | `packages/vscode` | VSCode extension — session monitoring and control at the desk. |
+| `packages/codex-bridge` | Global Codex MCP frontend worker: isolated worktrees, scoped file edits, account-failure handoff. |
+
+## Delegate frontend work from Codex
+
+The optional [Codex frontend worker](docs/codex-frontend-worker.md) lets Codex give
+Claude a scoped UI task, inspect its result and continue the same task with feedback.
+It uses separate sessions, not your existing VS Code chat. If Claude is disabled,
+logged out or usage-limited, delegation pauses and Codex asks whether to restore
+Claude access or continue the preserved work with Codex. Nothing retries or switches
+providers automatically. Install once at user level for current/future projects.
 
 ## Quick start
 

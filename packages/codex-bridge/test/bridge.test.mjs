@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { Store, classifyFailure } from '../src/store.mjs';
+import { Store, classifyFailure, loadConfig } from '../src/store.mjs';
 import { Manager } from '../src/manager.mjs';
 import { toolDecision, validateScope, claudeEnvironment } from '../src/policy.mjs';
 import { runClaude } from '../src/claude.mjs';
@@ -30,6 +30,24 @@ function fakeQuery(messages, inspect) {
   };
 }
 const success = { type: 'result', subtype: 'success', is_error: false, result: 'Done', session_id: 'fake-session', permission_denials: [] };
+
+test('exact configured model reaches fresh and resumed workers without a fallback model', async () => {
+  const store = new Store(mkdtempSync(join(tmpdir(), 'rey-model-test-')));
+  store.write('config.json', { model: 'claude-opus-5-5' });
+  const config = loadConfig(store);
+  assert.equal(config.model, 'claude-opus-5-5');
+  assert.equal(config.maxTurns, 24);
+  for (const agentSessionId of [undefined, 'prior-session']) {
+    const result = await runClaude({ kind: 'frontend', worktree: tmpdir(), prompt: 'test', agentSessionId }, config, {
+      queryImpl: fakeQuery([success], ({ options }) => {
+        assert.equal(options.model, 'claude-opus-5-5');
+        assert.equal(options.resume, agentSessionId);
+        assert.equal(options.fallbackModel, undefined);
+      }),
+    });
+    assert.equal(result.status, 'completed');
+  }
+});
 
 test('clean repo gets an isolated worktree and rejects global concurrent work', () => {
   const f = fixture(); const task = start(f);

@@ -36,3 +36,13 @@
 - [x] Provider outages/disabled accounts tested with simulated SDK streams, not by
   disabling the user's real account; no browser visual acceptance claimed for fixture
 - [ ] User restarts Codex/MCP connection to load tools in their normal task UI
+
+## P7: pin frontend worker to Opus 5.5
+
+- [x] Set user-local model to exact `claude-opus-5-5` for all projects
+- [x] Upgrade only bridge SDK to 0.3.283 for the required Claude Code runtime
+- [x] Verify SDK metadata reports Claude Code 2.1.283 and config loads exact model ID
+- [x] Pass 26 bridge tests, including exact model forwarding for new/resumed tasks
+- [x] Pass workspace typecheck, build and tests
+- [x] Commit and push scoped dependency/documentation changes
+- [ ] Verify live Opus 5.5 account entitlement on the next explicitly requested Claude run

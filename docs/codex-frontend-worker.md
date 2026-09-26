@@ -3,8 +3,9 @@
 ## Contract
 
 Codex can delegate frontend implementation to a separate local Claude Code session.
-This is a new stdio MCP entrypoint in `packages/codex-bridge`, using the same pinned
-Claude Agent SDK as reyd. It does not attach to the official VS Code panel, bypass
+This is a new stdio MCP entrypoint in `packages/codex-bridge`, using the same
+Claude Agent SDK integration as reyd, with an independently pinned runtime.
+It does not attach to the official VS Code panel, bypass
 reyd authentication, or require/restart the phone daemon. The existing PWA/daemon
 does not list these bridge-owned tasks; use `rey_list_tasks` in Codex instead.
 
@@ -29,6 +30,22 @@ selected Git repo is accessed, not every project scanned. New projects need an
 initial commit. Projects elsewhere need an explicitly approved parent in
 `~/.agent-rey/codex-bridge/config.json` (`allowedProjectRoots`).
 Global settings never override project specifications in `/docs`.
+
+### Frontend model
+
+The user-local `~/.agent-rey/codex-bridge/config.json` selects the worker model across
+projects. The requested installation uses an exact version, not the moving `opus` alias:
+
+```json
+{ "model": "claude-opus-5-5" }
+```
+
+The bridge pins Agent SDK 0.3.283 (Claude Code 2.1.283), meeting the
+[Opus 5.5 minimum runtime requirement](https://code.claude.com/docs/en/model-config)
+of Claude Code 2.1.280. The phone daemon's SDK is unchanged. Config is loaded on each
+worker launch, including feedback turns; changing it does not interrupt an active turn
+or change the VS Code panel's model. Account/model access is separate from configuration.
+Unavailable models still require the explicit recovery-or-Codex decision below.
 
 ## Tasks and isolation
 
